@@ -1,7 +1,8 @@
 const { Transform } = require('stream')
 
+
 function processLineByLine() {
-  const uppercase = new Transform({
+  const reverse = new Transform({
     transform: (chunk, encoding, done) => {
       const result = [...chunk.toString()].reverse().join('') + '\n\n'
       done(null, result)
@@ -10,7 +11,7 @@ function processLineByLine() {
 
   process.stdout.write('Please enter you text to see it reversed \n\n')
   process.stdin
-    .pipe(uppercase)
+    .pipe(reverse)
     .pipe(process.stdout)
 }
 

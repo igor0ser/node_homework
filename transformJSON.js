@@ -5,24 +5,28 @@ const keysToConvertToFloat = ['Price']
 
 const transformJSON = new Transform({
   transform: (chunk, encoding, done) => {
-    const item = JSON.parse(chunk.toString())
+    try {
+      const item = JSON.parse(chunk.toString())
 
-    const result = Object.keys(item).reduce((acc, key) => {
-      if (keysToSkip.includes(key)) return acc
+      const result = Object.keys(item).reduce((acc, key) => {
+        if (keysToSkip.includes(key)) return acc
 
-      const value = item[key]
+        const value = item[key]
 
-      const convertedValue = keysToConvertToFloat.includes(key)
-        ? Number.parseFloat(value)
-        : value
+        const convertedValue = keysToConvertToFloat.includes(key)
+          ? Number.parseFloat(value)
+          : value
 
-      return {
-        ...acc,
-        [key.toLowerCase()]: convertedValue,
-      }
-    }, {})
+        return {
+          ...acc,
+          [key.toLowerCase()]: convertedValue,
+        }
+      }, {})
 
-    done(null, JSON.stringify(result) + '\n')
+      done(null, JSON.stringify(result) + '\n')
+    } catch (e) {
+      done(e)
+    }
   },
 })
 
