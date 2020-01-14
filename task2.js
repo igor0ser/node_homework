@@ -1,6 +1,6 @@
-const fs = require('fs')
-const csv = require('csvtojson')
-const transformJSON = require('./transformJSON')
+import fs from 'fs'
+import csv from 'csvtojson'
+import  transformJSON from './transformJSON'
 
 const createErrorLogger = (proccessName) => (error) => {
   console.group(`Error while happened ${proccessName}`)

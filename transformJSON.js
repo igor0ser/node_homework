@@ -30,4 +30,4 @@ const transformJSON = new Transform({
   },
 })
 
-module.exports = transformJSON
+export default transformJSON
