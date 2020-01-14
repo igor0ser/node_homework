@@ -1,21 +1,17 @@
-const readline = require('readline');
+import { Transform } from 'stream'
 
-async function processLineByLine() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false,
+function processLineByLine() {
+  const reverse = new Transform({
+    transform: (chunk, encoding, done) => {
+      const result = [...chunk.toString()].reverse().join('') + '\n\n'
+      done(null, result)
+    },
   });
 
-  console.log('Please enter you text to see it reversed');
-  rl.prompt();
-
-  for await (const line of rl) {
-    const reversedLine = [...line].reverse().join('');
-
-    console.log(`Reversed number: ${reversedLine}`);
-
-    rl.prompt();
-  }
+  process.stdout.write('Please enter you text to see it reversed \n\n')
+  process.stdin
+    .pipe(reverse)
+    .pipe(process.stdout)
 }
-processLineByLine();
+
+processLineByLine()
